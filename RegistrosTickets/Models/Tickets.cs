@@ -26,10 +26,8 @@ namespace RegistrosTickets.Models
         [Key]
         public int TicketsDetalleId { get; set; }
         public int TicketId { get; set; }
-
         [Required(ErrorMessage = "Es obligatorio introducir una Emisor")]
         public string Emisor { get; set; }
-
         [Required(ErrorMessage = "Es obligatorio introducir una Mensaje")]
         public string Mensaje { get; set; }
 
