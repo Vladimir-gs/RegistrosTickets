@@ -4,12 +4,84 @@
 
 <PageTitle>Registros Tickets</PageTitle>
 
+<EditForm Model="Ticket" OnInvalidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-header">
+                <h3> Registro de Tickets</h3>
+            </div>
+            <div class="card-body">
+
+                @*TicketId*@
+                <div class="mb-3">
+                    <label class="form-group"> TicketId </label>
+                    <div class="input-group">
+                        <InputNumber class="col col-4" @bind-Value="Ticket.TicketId" />
+                        <ValidationMessage For="@(() => Ticket.TicketId)" />
+                        <button type="button" class="btn btn-sm btn-primary" @onclick="Buscar"> <i class="oi oi-magnifying-glass" /> </button>
+                    </div>
+                </div>                          
+
+                @*SolicitadoPor*@
+                <div class=" mb-3">
+                    <label class="form-group"> Solicitado Por </label>
+                    <div class="input-group">
+                        <InputText class="form-control" @bind-Value="Ticket.SolicitadoPor" placeholder="Coloque por quien fue solicitado" />
+                        <ValidationMessage For="@(() =>Ticket.SolicitadoPor)" />
+                    </div>
+                </div>
+
+                @*Asunto*@
+                <div class=" mb-3">
+                    <label class="form-group"> Asunto </label>
+                    <div class="input-group">
+                        <InputText class="form-control" @bind-Value="Ticket.Asunto" placeholder="Coloque un Asunto" />
+                        <ValidationMessage For="@(() =>Ticket.Asunto)" />
+                    </div>
+                </div>
+
+                @*Descripcion*@
+                <div class=" mb-3">
+                    <label class="form-group"> Descripcion </label>
+                    <div class="input-group">
+                        <InputText class="form-control" @bind-Value="Ticket.Descripcion" placeholder="Coloque una Descripcion" />
+                        <ValidationMessage For="@(() =>Ticket.Descripcion)" />
+                    </div>
+                </div>
+
+                @*Fecha*@
+                <div Class="form-group mt-3">
+                    <label class="row-text"> Dias Compromiso </label>
+                    <div class="input-group">
+                        <input type="date" @bind-value="Ticket.FechaT" />
+                        <ValidationMessage For="@(() => Ticket.FechaT)" />
+                    </div>
+                </div>
+
+                <hr style="width:100%;" />   
+
+                @*Botones*@
+                <div class="card-footer d-flex justify-content-center">
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" @onclick="Nuevo"> <i class="oi oi-file" /> Nuevo </button>
+                        <button type="submit" class="btn btn-success" @onclick="Guardar"> <i class=" oi oi-document " /> Guardar </button>
+                        <button type="button" class="btn btn-danger" @onclick="Eliminar"> <i class="oi oi-trash" /> Eliminar  </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</EditForm>
+
 
 @code {
 
     public Tickets Ticket { get; set; } = new Tickets();
 
-    public TicketsDetalle TicketsDetalle { get; set; } = new TicketsDetalle();
 
     private int detalleId = 0;
 
@@ -101,14 +173,5 @@
             mensaje: "Ocurrio un error al eliminar",
             NotificationSeverity.Error);
         }
-    }
-
-    private void AgregarDetalle()
-    {
-        detalleId ++;
-        this.TicketsDetalle.TicketId = detalleId;
-        this.Ticket.Detalle.Add(this.TicketsDetalle);
-        this.TicketsDetalle = new TicketsDetalle();
-
     }
 }

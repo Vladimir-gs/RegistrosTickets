@@ -7,7 +7,7 @@ namespace RegistrosTickets.Models
     {
         [Key]
         public int TicketId { get; set; }
-        public DateTime Fecha { get; set; }
+        public DateTime FechaT { get; set; }
         public int ClienteId { get; set; }
         public int SistemaId { get; set; }
         [Required(ErrorMessage = "Debes introducir una prioridad")]
