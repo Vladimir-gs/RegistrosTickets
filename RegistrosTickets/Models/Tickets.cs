@@ -18,6 +18,7 @@ namespace RegistrosTickets.Models
         public string? Asunto { get; set; }
         [ForeignKey("TicketId")]
         public string? Descripcion { get; set; }
+        public List<TicketsDetalle> Detalle { get; set; }
 
     }
 

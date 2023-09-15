@@ -1,6 +1,114 @@
 ﻿@page "/RegistrosTickets"
 @inject TicketsBLL TicketsBLL
+@inject NotificationService notificationService
+
+<PageTitle>Registros Tickets</PageTitle>
+
 
 @code {
 
+    public Tickets Ticket { get; set; } = new Tickets();
+
+    public TicketsDetalle TicketsDetalle { get; set; } = new TicketsDetalle();
+
+    private int detalleId = 0;
+
+    [Parameter]
+
+    public int TicketId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Nuevo();
+        if(TicketId > 0)
+        {
+            Ticket.TicketId = TicketId;
+            Buscar();
+        }
+    }
+
+    public void Buscar()
+    {
+        var TicketBuscar = TicketsBLL.Buscar(Ticket.TicketId);
+        if(TicketBuscar != null)
+        {
+            Ticket = TicketBuscar;
+        }
+        else
+        {
+            notificationService.ShowNotificacion(
+                titulo: "error de busqueda",
+                mensaje: "Registro no encontrado",
+                NotificationSeverity.Error);
+        }
+    }
+
+    public void Nuevo()
+    {
+        this.Ticket = new Tickets();
+        detalleId = 0;
+    }
+
+    public bool Validar()
+    {
+        return TicketsBLL.Validar(Ticket.Descripcion);
+    }
+
+    public void Guardar()
+    {
+        if (Validar())
+        {
+            notificationService.ShowNotificacion(
+            titulo: "Validacion",
+            mensaje: "Error reise los campos",
+            NotificationSeverity.Error);
+            return;
+        }
+
+        var guardo = TicketsBLL.Guardar(this.Ticket);
+        if (guardo)
+        {
+            detalleId = 0;
+            notificationService.ShowNotificacion(
+                titulo: "Exito",
+                mensaje: "Guardado correctamente",
+                NotificationSeverity.Success);
+            Nuevo();
+        }
+        else
+        {
+            notificationService.ShowNotificacion(
+                titulo: "Error",
+                mensaje: "Acurrio un error al guardar",
+                NotificationSeverity.Error);
+        }
+    }
+
+    public void Eliminar()
+    {
+        if (TicketsBLL.Eliminar(this.Ticket))
+        {
+            notificationService.ShowNotificacion(
+            titulo: "Exito",
+            mensaje: "Eliminado con exito",
+            NotificationSeverity.Success);
+            Nuevo();
+        }
+        else
+        {
+            notificationService.ShowNotificacion(
+            titulo: "Error",
+            mensaje: "Ocurrio un error al eliminar",
+            NotificationSeverity.Error);
+        }
+    }
+
+    private void AgregarDetalle()
+    {
+        detalleId ++;
+        this.TicketsDetalle.TicketId = detalleId;
+        this.Ticket.Detalle.Add(this.TicketsDetalle);
+        this.TicketsDetalle = new TicketsDetalle();
+
+    }
 }
