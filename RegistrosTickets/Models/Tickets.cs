@@ -7,30 +7,17 @@ namespace RegistrosTickets.Models
     {
         [Key]
         public int TicketId { get; set; }
-        public DateTime FechaT { get; set; }
+        public DateTime FechaT { get; set; } = DateTime.Now;
         public int ClienteId { get; set; }
         public int SistemaId { get; set; }
         [Required(ErrorMessage = "Debes introducir una prioridad")]
-        public int Prioridad { get; set; }
+        public int PrioridadId { get; set; }
         [Required(ErrorMessage = "Debes indicar por quien es solicitado!!")]
         public string? SolicitadoPor { get; set; }
         [Required(ErrorMessage = "Debes indicar cual es el asunto!!")]
         public string? Asunto { get; set; }
-        [ForeignKey("TicketId")]
+        
         public string? Descripcion { get; set; }
-        public List<TicketsDetalle> Detalle { get; set; }
-
-    }
-
-    public class TicketsDetalle
-    {
-        [Key]
-        public int TicketsDetalleId { get; set; }
-        public int TicketId { get; set; }
-        [Required(ErrorMessage = "Es obligatorio introducir una Emisor")]
-        public string Emisor { get; set; }
-        [Required(ErrorMessage = "Es obligatorio introducir una Mensaje")]
-        public string Mensaje { get; set; }
 
     }
 }
